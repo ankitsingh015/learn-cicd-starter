@@ -7,8 +7,9 @@ import (
 )
 
 func TestGetAPIKey(t *testing.T) {
-    t.Fatal("Zabardasti fail kiya CI check karne ke liye")
+    // Sahi code (t.Fatal hata diya hai)
 
+    // Case 1: Success Case (Sahi header)
     headers := http.Header{}
     headers.Set("Authorization", "ApiKey ankit-secret-123")
     key, err := GetAPIKey(headers)
@@ -19,12 +20,14 @@ func TestGetAPIKey(t *testing.T) {
         t.Errorf("Expected 'ankit-secret-123', got: %s", key)
     }
 
+    // Case 2: Failure Case 1 (Header gayab hai)
     emptyHeaders := http.Header{}
     _, err = GetAPIKey(emptyHeaders)
     if !errors.Is(err, ErrNoAuthHeaderIncluded) {
         t.Errorf("Expected ErrNoAuthHeaderIncluded, got: %v", err)
     }
 
+    // Case 3: Failure Case 2 (Header malformed/galat format mein hai)
     badHeaders := http.Header{}
     badHeaders.Set("Authorization", "Bearer wrong-format-key")
     _, err = GetAPIKey(badHeaders)
