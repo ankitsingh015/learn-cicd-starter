@@ -96,7 +96,7 @@ func main() {
 		Handler:           router,
 		ReadHeaderTimeout: 3 * time.Second,
 	}
-	
+
 	/* #nosec G706 */
 	log.Printf("Serving on port: %s\n", port)
 	log.Fatal(srv.ListenAndServe())
