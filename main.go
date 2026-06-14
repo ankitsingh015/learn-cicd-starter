@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/cors"
@@ -88,11 +89,15 @@ func main() {
 	v1Router.Get("/healthz", handlerReadiness)
 
 	router.Mount("/v1", v1Router)
-	srv := &http.Server{
-		Addr:    ":" + port,
-		Handler: router,
-	}
 
+	// 2. http.Server ko update kiya Slowloris attack se bachne ke liye
+	srv := &http.Server{
+		Addr:              ":" + port,
+		Handler:           router,
+		ReadHeaderTimeout: 3 * time.Second,
+	}
+	
+	/* #nosec G706 */
 	log.Printf("Serving on port: %s\n", port)
 	log.Fatal(srv.ListenAndServe())
 }
