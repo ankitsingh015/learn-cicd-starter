@@ -7,7 +7,9 @@ import (
 )
 
 func TestGetAPIKey(t *testing.T) {
-	// Case 1: Success Case (Sahi header)
+	// ⚠️ YE LINE TEST KO PAKKA FAIL KAR DEGI!
+	t.Fatal("Jaanbujhkar test fail kiya CI check karne ke liye")
+
 	// Case 1: Success Case (Sahi header)
 	headers := http.Header{}
 	headers.Set("Authorization", "ApiKey ankit-secret-123")
@@ -15,7 +17,7 @@ func TestGetAPIKey(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Sahi header par error nahi aana chahiye tha, par aaya: %v", err)
 	}
-	if key != "GALAT-KEY" {  // <--- Yahan humne jaanbujhkar badal diya
+	if key != "ankit-secret-123" {
 		t.Errorf("Expected 'ankit-secret-123', got: %s", key)
 	}
 
@@ -31,6 +33,6 @@ func TestGetAPIKey(t *testing.T) {
 	badHeaders.Set("Authorization", "Bearer wrong-format-key")
 	_, err = GetAPIKey(badHeaders)
 	if err == nil {
-		t.Errorf("Galat format par error aana chahiye تھا, par nahi aaya")
+		t.Errorf("Galat format par error aana chahiye tha, par nahi aaya")
 	}
 }
